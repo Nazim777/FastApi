@@ -12,7 +12,8 @@ router = APIRouter(
 
 @router.post('/',status_code=status.HTTP_201_CREATED)
 def create_blog(request:Blog,db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
-    return blog_controller.create_blog(request,db)
+    return blog_controller.create_blog(request,db,current_user.email)
+    # return {"message": "This is a protected route", "user_email": current_user.email}
 
 
 @router.get('/',status_code=status.HTTP_200_OK,response_model=list[PresentBlogs])

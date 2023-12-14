@@ -26,8 +26,9 @@ def update_blog(request,id,db):
     db.commit()
     return {"messages":"Blog updated successfully!"}
 
-def create_blog(request,db):
-    new_blog = models.Blog(title=request.title,description=request.description,isPublished=request.isPublished,user_id=1)
+def create_blog(request,db,current_user_email):
+    blog_author = db.query(models.User).filter(models.User.email==current_user_email).first()
+    new_blog = models.Blog(title=request.title,description=request.description,isPublished=request.isPublished,user_id=blog_author.id)
     db.add(new_blog)
     db.commit()
     db.refresh(new_blog)
